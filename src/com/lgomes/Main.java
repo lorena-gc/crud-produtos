@@ -1,6 +1,7 @@
 package com.lgomes;
 
 import com.lgomes.model.Estoque;
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,29 +9,38 @@ public class Main {
     public static void main(String[] args) {
 
         Estoque estoque = new Estoque();
-
+                    
         while(true) {
             imprimir("====[ Controle de Estoque ]====\n");
             exibirOpcoes();
-            String resposta = lerEntrada("\nInforme o número da opção desejada: ");
+            String resposta = lerEntrada("\nInforme o numero da opcao desejada: ");
             estoque = realizarAcao(estoque, resposta);
         }
     }
 
     private static Estoque realizarAcao(Estoque estoque, String resposta) {
-        switch (resposta){
+    	switch (resposta){
             case "1":
                 estoque.cadastrarProduto();
+                break;
             case "2":
                 estoque.alterarProduto();
+                break;
             case "3":
                 estoque.excluirProduto();
+                break;
             case "4":
                 estoque.exibirProduto();
+                break;
             case "5":
                 estoque.listarPorCategoria();
+                break;
             case "6":
                 estoque.listarVencidos();
+                break;   
+            default:
+            	imprimir("Opcao invalida.");
+            	break;
         }
         return estoque;
     }

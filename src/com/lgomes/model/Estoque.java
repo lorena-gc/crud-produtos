@@ -2,10 +2,8 @@ package com.lgomes.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Estoque {
 
@@ -15,47 +13,124 @@ public class Estoque {
     }
 
     public void listarVencidos() {
-        //TODO: Implementar a listagem de produtos que est√£o vencidos
+    	imprimir("\nProdutos vencidos:");
+    	LocalDate hoje = LocalDate.now();
+        for(Produto prod:produtos) {
+        	if(prod.getValidade().isBefore(hoje)) {
+        		 imprimir(prod.toString());
+        	}
+        }
     }
 
     public void listarPorCategoria() {
-        //TODO: Implementar a listagem de produtos por categoria
+    	String categoriaInformada = lerEntrada("\nInforme a categoria a ser exibida:");
+        for(Produto prod:produtos) {
+        	if(prod.getCategoria().equals(categoriaInformada)) {
+        		 imprimir(prod.toString());
+        	}
+        }
     }
 
     public void exibirProduto() {
-        //TODO: Implementar a exibi√ß√£o de um produto na lista de produtos definida na linha 8
+    	int codigoInformado = Integer.valueOf(lerEntrada("\nInforme o cÛdigo do produto  a ser exibido:"));
+        for(Produto prod:produtos) {
+        	if(prod.getCodigo()==(codigoInformado)) {
+        		 imprimir(prod.toString());
+        	}
+        }
     }
 
     public void excluirProduto() {
-        //TODO: Implementar a exclus√£o de um produto na lista de produtos definida na linha 8
-    }
+    	int produtoExcluir = Integer.valueOf(lerEntrada("\nInforme o cÛdigo do produto a ser excluido:"));
+        int index = Integer.MAX_VALUE;
+    	for(Produto prod:produtos) {
+        	if(prod.getCodigo()==(produtoExcluir)) {
+        		 imprimir(prod.toString());
+        		 index = produtos.indexOf(prod);
+        	}
+        }
+    	if(index!=Integer.MAX_VALUE){
+    		int confirmarExclusao = Integer.valueOf(lerEntrada("\nConfirma a exclus„o do item:\nDigite 1-Sim ou 2-N„o"));
+    		switch(confirmarExclusao){
+        		case (1):
+        			produtos.remove(index);
+        			imprimir("Produto excluÌdo com sucesso.");
+        			break;
+        		case (2):
+        			imprimir("Produto n„o excluÌdo.");
+        			break;
+        		default:
+        			imprimir("OpÁ„o inv·lida.");
+        			break;	
+    		}
+    	}else {
+    		imprimir("CÛdigo n„o encontrado.");
+    	}
+   }
 
     public void alterarProduto() {
-        //TODO: Implementar a altera√ß√£o de um produto na lista de produtos definida na linha 8
+    	int produtoAlterar = Integer.valueOf(lerEntrada("\nInforme o cÛdigo do produto a ser alterado:"));
+        for(Produto prod:produtos) {
+        	if(prod.getCodigo()==(produtoAlterar)) {
+        		 String nome = lerEntrada("\nDigite o novo nome do produto");
+        		 if(!nome.isEmpty()) {
+        			 prod.setNome(nome);
+        		 }
+        		 Double preco = Double.parseDouble(lerEntrada("\nDigite o novo preco do produto"));
+        		 if(preco!=null) {
+        			 prod.setPreco(preco);
+        		 }
+        		 String marca = lerEntrada("\nDigite a nova marca do produto");
+        		 if(!marca.isEmpty()) {
+        			 prod.setMarca(marca);
+        		 }
+        		 String categoria = lerEntrada("\nDigite a nova categoria do produto");
+        		 if(!categoria.isEmpty()) {
+        			 prod.setCategoria(categoria);
+        		 }
+        		 LocalDate validade = LocalDate.parse(lerEntrada("\nDigite a nova validade (ano/mÍs/dia) do produto"));
+        		 if(validade!=null) {
+        			 prod.setValidade(validade);
+        		 }
+        	}
+        }
     }
 
     public void cadastrarProduto() {
-        //TODO: Implementar a inclus√£o de um produto na lista de produtos definida na linha 8
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		/*
+		 * SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		 * 
+		 * String nome = lerEntrada("\nInforme o nome do produto:"); Double preco =
+		 * Double.parseDouble(lerEntrada("\nInforme o preco do produto:(Exemplo 1.00)"))
+		 * ; String marca = lerEntrada("\nInforme a marca do produto:"); String
+		 * categoria = lerEntrada("\nInforme a categoria do produto:"); Date validade =
+		 * null; try { validade =
+		 * formato.parse(lerEntrada("\nInforme a data de validade do produto:")); }
+		 * catch (ParseException e) { System.out.
+		 * println("Data invalida. Favor voltar no menu e alterar a data de validade cadastrada"
+		 * ); } Produto produto = new Produto(nome,preco,marca,categoria,validade);
+		 * produtos.add(produto);
+		 */
 
-        String nome = lerEntrada("\nInforme o nome do produto:");
-        Double pre√ßo = Double.parseDouble(lerEntrada("\nInforme o pre√ßo do produto:"));
-        String marca = lerEntrada("\nInforme a marca do produto:");
-        String categoria = lerEntrada("\nInforme a categoria do produto:");
-        Date validade = new Date(2050,1,1);
-        try {
-            validade = formato.parse(lerEntrada("\nInforme a data de validade do produto:"));
-        } catch (ParseException e) {
-            System.out.println("Data inv√°lida. Favor voltar no menu e alterar a data de validade cadastrada");
-        }
-        Produto produto = new Produto(nome,pre√ßo,marca,categoria,validade);
-        produtos.add(produto);
+        Produto produto1 = new Produto(1,"Leite",3.55,"Itambe","Bebidas", LocalDate.of(2021,5,04));
+        Produto produto2 = new Produto(2,"Agua",2.00,"Inga","Bebidas", LocalDate.of(2022,5,13));
+        Produto produto3 = new Produto(3,"Suco",5.00,"DelVale","Bebidas", LocalDate.of(2021,8,13));
+        Produto produto4 = new Produto(4,"Biscoito",1.55,"Liane","Alimentos", LocalDate.of(2023,5,13));
+		produtos.add(produto1);
+		produtos.add(produto2);
+		produtos.add(produto3);
+		produtos.add(produto4);
+		
+        imprimir("Produto cadastrado com sucesso!"); 
     }
 
     private String lerEntrada(String texto){
         Scanner obj = new Scanner(System.in);
         System.out.println(texto);
         return obj.nextLine();
+    }
+    private static void imprimir(String s) {
+        System.out.println(s);
     }
 
 }

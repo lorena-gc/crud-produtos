@@ -1,18 +1,20 @@
 package com.lgomes.model;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class Produto {
-
+	private int codigo; 
     private String nome;
-    private Double preço;
+    private Double preco;
     private String marca;
     private String categoria;
-    private Date validade;
+    private LocalDate validade;
 
-    public Produto(String nome, Double preço, String marca, String categoria, Date validade) {
-        this.nome = nome;
-        this.preço = preço;
+    public Produto(int codigo, String nome, Double preco, String marca, String categoria, LocalDate validade) {
+        this.codigo = codigo;
+    	this.nome = nome;
+        this.preco = preco;
         this.marca = marca;
         this.categoria = categoria;
         this.validade = validade;
@@ -26,12 +28,20 @@ public class Produto {
         this.nome = nome;
     }
 
-    public Double getPreço() {
-        return preço;
+    public Double getPreco() {
+        return preco;
     }
 
-    public void setPreço(Double preço) {
-        this.preço = preço;
+    public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public void setPreco(Double preco) {
+        this.preco = preco;
     }
 
     public String getMarca() {
@@ -50,11 +60,22 @@ public class Produto {
         this.categoria = categoria;
     }
 
-    public Date getValidade() {
+    public LocalDate getValidade() {
         return validade;
     }
 
-    public void setValidade(Date validade) {
+    public void setValidade(LocalDate validade) {
         this.validade = validade;
+    }
+    
+    public String toString() {
+    	    	
+    	String str = "C�digo: " +this.codigo;
+    	str = str +	"\nNome: "+ this.nome;
+    	str = str + "\nPreco: "+this.preco;
+    	str = str + "\nMarca: "+this.marca;
+    	str = str + "\nCategoria: "+this.categoria;
+    	str = str + "\nValidade: "+ this.validade;
+    	return str;
     }
 }
